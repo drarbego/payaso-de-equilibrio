@@ -1,0 +1,41 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "Obstacle",
+"language": "GDScript",
+"path": "res://Obstacle.gd"
+} ]
+_global_script_class_icons={
+"Obstacle": ""
+}
+
+[application]
+
+config/name="Payasito de Equilibrio"
+run/main_scene="res://Env.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+Globals="*res://Globals.gd"
+
+[display]
+
+window/size/width=720
+window/size/height=1280
+window/handheld/orientation="portrait"
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
