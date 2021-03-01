@@ -3,7 +3,7 @@ extends Node2D
 var obstacle_class = preload("res://Obstacle.tscn")
 
 var spawn_timer = Timer.new()
-var obstacle_spawn_time = 5
+var obstacle_spawn_time = 0.75
 
 func _ready():
 	randomize()
@@ -32,3 +32,25 @@ func get_inclination():
 func _on_ObstacleDeleter_body_entered(body):
 	if body is Obstacle:
 		body.queue_free()
+
+func _on_LeftLimitDetector_body_entered(body):
+	if body is Player:
+		$LimitDetectors/LimitTimer.start()
+
+func _on_LeftLimitDetector_body_exited(body):
+	if body is Player:
+		$LimitDetectors/LimitTimer.stop()
+
+func _on_RightLimitDetector_body_entered(body):
+	if body is Player:
+		$LimitDetectors/LimitTimer.start()
+
+func _on_RightLimitDetector_body_exited(body):
+	if body is Player:
+		$LimitDetectors/LimitTimer.stop()
+
+func _on_LimitTimer_timeout():
+	game_over()
+
+func game_over():
+	get_tree().change_scene("res://GameOverMenu.tscn")

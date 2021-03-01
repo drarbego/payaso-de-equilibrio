@@ -1,3 +1,3 @@
 extends Node
 
-var MAX_ACC = 9.8
+var MAX_ACC = 6.0

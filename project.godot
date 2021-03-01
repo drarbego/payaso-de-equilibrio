@@ -13,15 +13,21 @@ _global_script_classes=[ {
 "class": "Obstacle",
 "language": "GDScript",
 "path": "res://Obstacle.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://Characters/Payasito.gd"
 } ]
 _global_script_class_icons={
-"Obstacle": ""
+"Obstacle": "",
+"Player": ""
 }
 
 [application]
 
 config/name="Payasito de Equilibrio"
-run/main_scene="res://Env.tscn"
+run/main_scene="res://GameOverMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
