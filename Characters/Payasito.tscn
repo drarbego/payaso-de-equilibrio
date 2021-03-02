@@ -26,4 +26,12 @@ collision_mask = 2
 shape = SubResource( 2 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="Label" type="Label" parent="."]
+margin_top = -60.0
+margin_right = 40.0
+margin_bottom = -46.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="body_entered" from="Hitbox" to="." method="_on_Hitbox_body_entered"]

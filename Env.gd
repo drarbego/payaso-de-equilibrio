@@ -52,5 +52,8 @@ func _on_RightLimitDetector_body_exited(body):
 func _on_LimitTimer_timeout():
 	game_over()
 
+func _on_Payasito_fell():
+	game_over()
+
 func game_over():
 	get_tree().change_scene("res://GameOverMenu.tscn")

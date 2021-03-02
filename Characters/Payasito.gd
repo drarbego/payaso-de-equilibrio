@@ -4,26 +4,38 @@ var speed = 950
 var damage_color = Color(1, 0, 0)
 onready var original_color = $Polygon2D.color
 var color_change_time = 1.5
+
 var equilibrium = 100
+var equilibrium_limit = 0.2
+var equilibrium_increase_unit = 5
+var equilibrium_decrease_unit = -10
+
+signal fell
 
 class_name Player
 
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	var inclination = self.get_inclination()
 	var motion = Vector2(inclination, 0) * self.speed
-	self.move_and_slide(motion)
+	var __ = self.move_and_slide(motion)
+
+	var equilibrium_delta = equilibrium_decrease_unit if abs(inclination) > equilibrium_limit else equilibrium_increase_unit
+	equilibrium = clamp(equilibrium + equilibrium_delta * delta, -5, 100)
+	if equilibrium <= 0:
+		emit_signal("fell")
+
+	$Label.set_text(str(equilibrium))
 
 func get_inclination():
-	var half_max_acc = Globals.MAX_ACC / 2
-	return clamp(Input.get_accelerometer().x, -half_max_acc, half_max_acc) / half_max_acc
+	return clamp(Input.get_accelerometer().x, -Globals.MAX_ACC, Globals.MAX_ACC) / Globals.MAX_ACC
 
 func _on_Hitbox_body_entered(body):
 	if body is Obstacle:
 		self.handle_hit(body)
 
 func handle_hit(obstacle):
-	self.equilibrium -= 10
+	self.equilibrium -= 30
 	$Tween.interpolate_property($Polygon2D, "color", original_color, damage_color, color_change_time / 2)
 	$Tween.interpolate_callback(self, color_change_time / 2, "transition_to_idle")
 	$Tween.start()
