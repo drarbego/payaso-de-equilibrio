@@ -7,7 +7,7 @@ var color_change_time = 1.5
 
 var equilibrium = 100
 var equilibrium_limit = 0.2
-var equilibrium_increase_unit = 5
+var equilibrium_increase_unit = 10
 var equilibrium_decrease_unit = -10
 
 signal fell
