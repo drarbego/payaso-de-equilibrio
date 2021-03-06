@@ -12,8 +12,14 @@ var speed = 0
 func _ready():
 	var shape = RectangleShape2D.new()
 	var x_extent = (randi() % (max_x_extent - min_x_extent + 1)) + min_x_extent
-	shape.set_extents(Vector2(x_extent, 80))
+	var y_extent = 80
+	shape.set_extents(Vector2(x_extent, y_extent))
 	$CollisionShape2D.set_shape(shape)
+	var top_left = Vector2(-shape.extents.x, -shape.extents.y)
+	var top_right = Vector2(shape.extents.x, -shape.extents.y)
+	var bottom_left = Vector2(-shape.extents.x, shape.extents.y)
+	var bottom_right = Vector2(shape.extents.x, shape.extents.y)
+	$Polygon2D.polygon = PoolVector2Array([top_left, top_right, bottom_right, bottom_left])
 
 	self.speed = ((float(max_x_extent) - float(x_extent)) / float(max_x_extent)) * (max_speed - min_speed) + min_speed
 
