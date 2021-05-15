@@ -2,7 +2,6 @@ extends KinematicBody2D
 
 var speed = 950
 var damage_color = Color(1, 0, 0)
-onready var original_color = $Polygon2D.color
 var color_change_time = 1.5
 
 var equilibrium = 100
@@ -25,8 +24,6 @@ func _physics_process(delta):
 	if equilibrium <= 0:
 		emit_signal("fell")
 
-	$Label.set_text(str(equilibrium))
-
 func get_inclination():
 	return clamp(Input.get_accelerometer().x, -Globals.MAX_ACC, Globals.MAX_ACC) / Globals.MAX_ACC
 
@@ -34,12 +31,8 @@ func _on_Hitbox_body_entered(body):
 	if body is Obstacle:
 		self.handle_hit(body)
 
+func _process(_delta):
+	$ProgressBar.value = self.equilibrium
+
 func handle_hit(obstacle):
 	self.equilibrium -= 30
-	$Tween.interpolate_property($Polygon2D, "color", original_color, damage_color, color_change_time / 2)
-	$Tween.interpolate_callback(self, color_change_time / 2, "transition_to_idle")
-	$Tween.start()
-
-func transition_to_idle():
-	$Tween.interpolate_property($Polygon2D, "color", damage_color, original_color, color_change_time / 2)
-	$Tween.start()

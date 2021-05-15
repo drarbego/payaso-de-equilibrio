@@ -27,7 +27,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Payasito de Equilibrio"
-run/main_scene="res://GameOverMenu.tscn"
+run/main_scene="res://Env.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -44,5 +44,5 @@ window/stretch/aspect="keep"
 
 [rendering]
 
-environment/default_clear_color=Color( 0.160784, 0.0901961, 0.0666667, 1 )
+environment/default_clear_color=Color( 0.117647, 0.0235294, 0.247059, 1 )
 environment/default_environment="res://default_env.tres"
