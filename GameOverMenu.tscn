@@ -2,7 +2,7 @@
 
 [ext_resource path="res://GameOverMenu.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Andale Mono.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://Assets/Quack_duck.ogg" type="AudioStream" id=3]
+[ext_resource path="res://Assets/Quack_duck.wav" type="AudioStream" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 border_width_left = 2
