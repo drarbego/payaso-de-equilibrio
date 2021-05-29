@@ -6,8 +6,8 @@ var color_change_time = 1.5
 
 var equilibrium = 100
 var equilibrium_limit = 0.2
-var equilibrium_increase_unit = 10
-var equilibrium_decrease_unit = -10
+var equilibrium_increase_unit = 30
+var equilibrium_decrease_unit = -30
 
 signal fell
 signal shot(dir)
@@ -21,13 +21,13 @@ func _physics_process(delta):
 	var __ = self.move_and_slide(motion)
 
 	var equilibrium_delta = equilibrium_decrease_unit if abs(inclination) > equilibrium_limit else equilibrium_increase_unit
-	equilibrium = clamp(equilibrium + equilibrium_delta * delta, -5, 100)
+	equilibrium = clamp(equilibrium + equilibrium_delta * delta, 0, 100)
 
-	if equilibrium >= 60 and $AnimatedSprite.animation != "normal":
+	if equilibrium >= 80 and $AnimatedSprite.animation != "normal":
 		$AnimatedSprite.play("normal")
-	elif equilibrium < 60 and equilibrium > 30 and $AnimatedSprite.animation != "mid":
+	elif equilibrium < 80 and equilibrium > 50 and $AnimatedSprite.animation != "mid":
 		$AnimatedSprite.play("mid")
-	elif equilibrium <= 30 and $AnimatedSprite.animation != "low":
+	elif equilibrium <= 50 and $AnimatedSprite.animation != "low":
 		$AnimatedSprite.play("low")
 
 	if equilibrium <= 0:
