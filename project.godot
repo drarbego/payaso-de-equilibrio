@@ -33,7 +33,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Payasito de Equilibrio"
-run/main_scene="res://Env.tscn"
+run/main_scene="res://StartGameMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]

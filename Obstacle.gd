@@ -9,6 +9,8 @@ var min_x_extent = 20
 var max_x_extent = 80
 var speed = 0
 
+signal destroyed(points)
+
 func _ready():
 	var shape = RectangleShape2D.new()
 	var x_extent = (randi() % (max_x_extent - min_x_extent + 1)) + min_x_extent
@@ -22,6 +24,11 @@ func _ready():
 	$Polygon2D.polygon = PoolVector2Array([top_left, top_right, bottom_right, bottom_left])
 
 	self.speed = ((float(max_x_extent) - float(x_extent)) / float(max_x_extent)) * (max_speed - min_speed) + min_speed
+
+func destroy():
+	var points = ceil((self.speed / self.max_speed) * 100)
+	emit_signal("destroyed", points)
+	self.queue_free()
 
 func _physics_process(delta):
 	move_and_slide(direction * speed)

@@ -8,6 +8,7 @@ var spawn_timer = Timer.new()
 var obstacle_spawn_time = 0.75
 
 export(float) var CLOUD_ANIMATION_SPEED = 300
+var score = 0
 
 func _ready():
 	randomize()
@@ -15,19 +16,26 @@ func _ready():
 	spawn_timer.connect("timeout", self, "spawn_obstacle")
 	spawn_timer.set_autostart(true)
 	add_child(spawn_timer)
+	$Score/Points.set_text(str(self.score))
+
+func _on_ScoreTimer_timeout():
+	self.score += 100
+	$Score/Points.set_text(str(self.score))
+
 
 func spawn_obstacle():
 	var spawn_length = ($ObstacleSpawner/End.position - $ObstacleSpawner/Start.position).x
 	var spawn_pos = Vector2($ObstacleSpawner/Start.position.x + randf() * spawn_length, $ObstacleSpawner/Start.position.y)
 	var obstacle = obstacle_class.instance()
 	obstacle.position = spawn_pos
+	obstacle.connect("destroyed", self, "_on_obstacle_destroyed")
 	$Obstacles.add_child(obstacle)
 
+func _on_obstacle_destroyed(points):
+	self.score += points
+	$Score/Points.set_text(str(score))
+
 func _process(delta):
-	var inclination = get_inclination()
-	var rot = 90 * inclination
-	$TiltIndicator.rotation_degrees = rot
-	$Label.set_text(str(rot))
 	animate_clouds(delta)
 
 func animate_clouds(delta):

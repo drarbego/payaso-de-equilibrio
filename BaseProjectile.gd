@@ -15,7 +15,7 @@ func _physics_process(delta):
     var collision = move_and_collide(dir * speed * delta)
 
     if collision and collision.collider is Obstacle:
-        collision.collider.queue_free()
+        collision.collider.destroy()
         self.queue_free()
 
 func _on_Timer_timeout():
