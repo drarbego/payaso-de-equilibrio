@@ -2,22 +2,23 @@ extends KinematicBody2D
 
 class_name Projectile
 
-export (float) var speed = 1000
+export (float) var max_speed = 1000
+var speed = max_speed
+var speed_decrease = 300
+export (float) var gravity_speed = 500
 var dir = Vector2.UP
 
-func _ready():
-    var screen_size = get_viewport_rect().size
-    var screen_diagonal = sqrt(screen_size.y * screen_size.y + screen_size.x * screen_size.x)
-    var wait_time = screen_diagonal / self.speed
-    $Timer.set_wait_time(wait_time)
-
 func _physics_process(delta):
-    var collision = move_and_collide(dir * speed * delta)
+	var gravity = Vector2.DOWN * gravity_speed * delta
+	var velocity = dir * speed * delta
+	var collision = move_and_collide(velocity + gravity)
+	speed = clamp(speed - speed_decrease * delta, 0, max_speed)
 
-    if collision and collision.collider is Obstacle:
-        collision.collider.destroy()
-        self.queue_free()
+	if collision:
+		dir = dir.bounce(collision.normal)
 
-func _on_Timer_timeout():
-    if not self.is_queued_for_deletion():
-        self.queue_free()
+		if collision.collider is Player:
+			collision.collider.increase_bullets()
+			self.queue_free()
+		if collision.collider is Obstacle:
+			collision.collider.destroy()

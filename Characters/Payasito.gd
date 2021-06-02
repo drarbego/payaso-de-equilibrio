@@ -6,8 +6,9 @@ var color_change_time = 1.5
 
 var equilibrium = 100
 var equilibrium_limit = 0.2
-var equilibrium_increase_unit = 30
+var equilibrium_increase_unit = 15
 var equilibrium_decrease_unit = -30
+var bullets = 1
 
 signal fell
 signal shot(dir)
@@ -35,11 +36,16 @@ func _physics_process(delta):
 
 func _unhandled_input(event):
 	if event.is_action_pressed("shoot"):
-		# trigger load
-		pass
-	if event.is_action_released("shoot"):
 		var shoot_dir = (get_global_mouse_position() - self.global_position).normalized()
-		emit_signal("shot", shoot_dir)
+		if self.bullets > 0 and shoot_dir.angle() < 0:
+			self.decrease_bullets()
+			emit_signal("shot", shoot_dir)
+
+func increase_bullets():
+	self.bullets += 1
+
+func decrease_bullets():
+	self.bullets -= 1
 
 func get_inclination():
 	return clamp(Input.get_accelerometer().x, -Globals.MAX_ACC, Globals.MAX_ACC) / Globals.MAX_ACC

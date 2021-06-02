@@ -2,6 +2,7 @@ extends Node2D
 
 const obstacle_class = preload("res://Obstacle.tscn")
 const projectile_class = preload("res://BaseProjectile.tscn")
+const ammo_class = preload("res://Ammo.tscn")
 const cloud_texture = preload("res://Assets/Background/Cloud_01.png")
 
 var spawn_timer = Timer.new()
@@ -59,6 +60,11 @@ func get_inclination():
 func _on_ObstacleDeleter_body_entered(body):
 	if body is Obstacle:
 		body.queue_free()
+	if body is Projectile:
+		var ammo = ammo_class.instance()
+		ammo.position = Vector2(body.position.x, $Payasito.position.y)
+		add_child(ammo)
+		body.queue_free()
 
 func _on_LeftLimitDetector_body_entered(body):
 	if body is Player:
@@ -85,7 +91,7 @@ func _on_Payasito_fell():
 func _on_Payasito_shot(dir):
 	var projectile = projectile_class.instance()
 	projectile.dir = dir
-	projectile.global_position = $Payasito.global_position + dir * 50
+	projectile.global_position = $Payasito.global_position + dir * 70
 	$Projectiles.add_child(projectile)
 
 func game_over():
