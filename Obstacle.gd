@@ -11,6 +11,11 @@ var speed = 0
 
 signal destroyed(points)
 
+func _on_Hitbox_body_entered(body):
+	if body is Projectile:
+		$CollisionShape2D.set_deferred('disabled', true)
+		self.destroy()
+
 func _ready():
 	var shape = RectangleShape2D.new()
 	var x_extent = (randi() % (max_x_extent - min_x_extent + 1)) + min_x_extent

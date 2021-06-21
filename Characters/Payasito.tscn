@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://Characters/Payasito.gd" type="Script" id=1]
 [ext_resource path="res://Characters/Animations/Normal_Balance/Payasito0004.png" type="Texture" id=2]
@@ -44,7 +44,7 @@
 radius = 50.0
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 50.0
+radius = 60.0
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.878431, 0.211765, 0.752941, 1 )
@@ -70,6 +70,87 @@ animations = [ {
 "name": "low",
 "speed": 24.0
 } ]
+
+[sub_resource type="Animation" id=6]
+resource_name = "falling"
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -150 ), Vector2( 0, 270 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.2, 0.2 ), Vector2( 0.4, 0.4 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "falling_left"
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -50, -100 ), Vector2( -150, 270 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.2, 0.2 ), Vector2( 0.4, 0.4 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "falling_right"
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 100, -150 ), Vector2( 150, 270 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.2, 0.2 ), Vector2( 0.4, 0.4 ) ]
+}
 
 [node name="Payasito" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -102,4 +183,9 @@ scale = Vector2( 0.2, 0.2 )
 frames = SubResource( 5 )
 animation = "low"
 frame = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/falling = SubResource( 6 )
+anims/falling_left = SubResource( 7 )
+anims/falling_right = SubResource( 8 )
 [connection signal="body_entered" from="Hitbox" to="." method="_on_Hitbox_body_entered"]

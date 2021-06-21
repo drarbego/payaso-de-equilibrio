@@ -66,32 +66,31 @@ func _on_ObstacleDeleter_body_entered(body):
 		add_child(ammo)
 		body.queue_free()
 
-func _on_LeftLimitDetector_body_entered(body):
-	if body is Player:
-		$LimitDetectors/LimitTimer.start()
+func _on_GameOverTimer_timeout():
+	game_over()
 
-func _on_LeftLimitDetector_body_exited(body):
-	if body is Player:
-		$LimitDetectors/LimitTimer.stop()
+func _on_LeftLimitDetector_body_entered(body):
+	if body is Player and body.state != $Payasito.FALLING:
+		$GameOverTimer.start()
+		$Payasito.state = $Payasito.FALLING
+		$Payasito/AnimationPlayer.play("falling_left")
 
 func _on_RightLimitDetector_body_entered(body):
-	if body is Player:
-		$LimitDetectors/LimitTimer.start()
-
-func _on_RightLimitDetector_body_exited(body):
-	if body is Player:
-		$LimitDetectors/LimitTimer.stop()
-
-func _on_LimitTimer_timeout():
-	game_over()
+	if body is Player and body.state != $Payasito.FALLING:
+		$GameOverTimer.start()
+		$Payasito.state = $Payasito.FALLING
+		$Payasito/AnimationPlayer.play("falling_right")
 
 func _on_Payasito_fell():
-	game_over()
+	$GameOverTimer.start()
+	$Payasito.state = $Payasito.FALLING
+	$Payasito/AnimationPlayer.play("falling")
 
-func _on_Payasito_shot(dir):
+func _on_Payasito_shot(dir, speed_factor):
 	var projectile = projectile_class.instance()
 	projectile.dir = dir
-	projectile.global_position = $Payasito.global_position + dir * 70
+	projectile.global_position = $Payasito.global_position + dir * 100
+	projectile.speed = projectile.max_speed * speed_factor
 	$Projectiles.add_child(projectile)
 
 func game_over():
