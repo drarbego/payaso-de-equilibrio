@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 class_name Projectile
 
-export (float) var max_speed = 2000
+export (float) var max_speed = 2500
 var speed = max_speed
 var speed_decrease = 300
 export (float) var gravity_speed = 500
@@ -14,5 +14,7 @@ func _physics_process(delta):
 	var collision = move_and_collide(velocity + gravity)
 	speed = clamp(speed - speed_decrease * delta, 0, max_speed)
 
-	if collision and collision.collider.name == "Margin":
+	if collision:
 		dir = dir.bounce(collision.normal)
+		if collision.collider is Brick:
+			collision.collider.queue_free()

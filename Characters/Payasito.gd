@@ -8,7 +8,7 @@ var equilibrium = 100
 var equilibrium_limit = 0.2
 var equilibrium_increase_unit = 15
 var equilibrium_decrease_unit = -30
-var bullets = 1
+var bullets = 5
 
 signal fell
 signal shot(dir, speed_factor)
@@ -35,7 +35,7 @@ func _ready():
 
 func _physics_process(delta):
 	var inclination = self.get_inclination()
-	var motion = 0 if self.state == FALLING else Vector2(inclination, 0) * self.speed
+	var motion = Vector2.ZERO if self.state == FALLING else Vector2(inclination, 0) * self.speed
 	var __ = self.move_and_slide(motion)
 
 	var equilibrium_delta = equilibrium_decrease_unit if abs(inclination) > equilibrium_limit else equilibrium_increase_unit
@@ -90,7 +90,6 @@ func _process(delta):
 			clamp(modulate.g, 0, 0.5),
 			clamp(modulate.b, 0, 0.5)
 		)
-		print($AnimatedSprite.modulate)
 	else:
 		$AnimatedSprite.modulate = Color.white
 

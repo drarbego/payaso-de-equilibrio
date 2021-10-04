@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Bricks/Brick.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 66, 66 )
+
+[node name="Brick" type="KinematicBody2D" groups=[
+"bricks",
+]]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2( -0.0253267, -1.23558 )
+scale = Vector2( 0.727793, 1.70695 )
+color = Color( 0.160784, 0.192157, 0.509804, 1 )
+polygon = PoolVector2Array( -90.2779, -37.8998, 90.4552, -38.5887, 90.4552, 38.9211, -89.4782, 38.2321 )

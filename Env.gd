@@ -6,7 +6,7 @@ const ammo_class = preload("res://Ammo.tscn")
 const cloud_texture = preload("res://Assets/Background/Cloud_01.png")
 
 var spawn_timer = Timer.new()
-var obstacle_spawn_time = 0.75
+var obstacle_spawn_time = 2
 
 export(float) var CLOUD_ANIMATION_SPEED = 300
 var score = 0
@@ -65,6 +65,9 @@ func _on_ObstacleDeleter_body_entered(body):
 		ammo.position = Vector2(body.position.x, $Payasito.position.y)
 		add_child(ammo)
 		body.queue_free()
+	if body is Brick:
+		game_over()
+
 
 func _on_GameOverTimer_timeout():
 	game_over()
