@@ -8,7 +8,7 @@ var equilibrium = 100
 var equilibrium_limit = 0.2
 var equilibrium_increase_unit = 15
 var equilibrium_decrease_unit = -30
-var bullets = 5
+var bullets = 3
 
 signal fell
 signal shot(dir, speed_factor)
@@ -82,6 +82,7 @@ func _on_Hitbox_body_entered(body):
 		body.queue_free()
 
 func _process(delta):
+	update()
 	$ProgressBar.value = self.equilibrium
 	if self.state == AIMING:
 		var modulate = $AnimatedSprite.modulate + (Color(1, -1, -1) * delta * self.shoot_charge_wait_time)
@@ -92,6 +93,11 @@ func _process(delta):
 		)
 	else:
 		$AnimatedSprite.modulate = Color.white
+
+func _draw():
+	if self.state == AIMING:
+		var arrow_end = self.position.direction_to(get_global_mouse_position()) * 250
+		draw_line(Vector2.ZERO, arrow_end, Color.white, 2)
 
 func handle_hit(obstacle):
 	self.equilibrium -= 30
