@@ -3,9 +3,31 @@ extends KinematicBody2D
 
 class_name Brick
 
+const Obstacle = preload("res://Obstacle.tscn")
+
 var target_pos = Vector2.ZERO
 var is_moving = false
 var speed = 100
+var is_aggresive = false
+const MAX_TIME = 5
+const MIN_TIME = 2
+
+func _ready():
+	if self.is_aggresive:
+		self.start_timer()
+		$Polygon2D.color = Color.red
+
+func start_timer():
+	$ObstacleTimer.wait_time = (MAX_TIME - MIN_TIME) * randf() + MIN_TIME
+	$ObstacleTimer.start()
+
+func _on_ObstacleTimer_timeout():
+	self.spawn_obstacle()
+	self.start_timer()
+
+func spawn_obstacle():
+	var obstacle = Obstacle.instance().init(self.global_position)
+	get_node("../../Obstacles").add_child(obstacle)
 
 func move_to_next_row():
 	self.target_pos = self.position + Vector2(0, self.get_height())

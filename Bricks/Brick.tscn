@@ -3,7 +3,7 @@
 [ext_resource path="res://Bricks/Brick.gd" type="Script" id=1]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 66, 66 )
+extents = Vector2( 40.5, 40.5 )
 
 [node name="Brick" type="KinematicBody2D" groups=[
 "bricks",
@@ -19,4 +19,8 @@ shape = SubResource( 1 )
 position = Vector2( -0.0253267, -1.23558 )
 scale = Vector2( 0.727793, 1.70695 )
 color = Color( 0.160784, 0.192157, 0.509804, 1 )
-polygon = PoolVector2Array( -90.2779, -37.8998, 90.4552, -38.5887, 90.4552, 38.9211, -89.4782, 38.2321 )
+polygon = PoolVector2Array( -55.0101, -22.2051, 55.6475, -23.0169, 55.9331, 24.0222, -55.4384, 23.9208 )
+
+[node name="ObstacleTimer" type="Timer" parent="."]
+one_shot = true
+[connection signal="timeout" from="ObstacleTimer" to="." method="_on_ObstacleTimer_timeout"]

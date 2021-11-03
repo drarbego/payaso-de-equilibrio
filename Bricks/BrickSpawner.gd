@@ -11,6 +11,8 @@ func spawn_bricks_row():
 	for i in range(brick_count):
 		var brick_pos_x = brick_width * i + brick_width/2
 		var brick = Brick.instance()
+		if randi() % 2 == 0:
+			brick.is_aggresive = true
 		brick.position = Vector2(brick_pos_x, 0)
 		add_child(brick)
 

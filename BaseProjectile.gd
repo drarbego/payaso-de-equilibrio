@@ -2,9 +2,7 @@ extends KinematicBody2D
 
 class_name Projectile
 
-export (float) var max_speed = 2500
-var speed = max_speed
-var speed_decrease = 300
+var speed = 2500
 var dir = Vector2.UP
 
 func _physics_process(delta):
@@ -13,5 +11,6 @@ func _physics_process(delta):
 
 	if collision:
 		dir = dir.bounce(collision.normal)
-		if collision.collider is Brick:
+		
+		if collision.collider.is_in_group("bricks"):
 			collision.collider.queue_free()
