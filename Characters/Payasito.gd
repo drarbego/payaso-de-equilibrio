@@ -11,7 +11,7 @@ var equilibrium_decrease_unit = -30
 var bullets = 3
 
 signal fell
-signal shot(dir, speed_factor)
+signal shot(dir)
 
 class_name Player
 
@@ -22,16 +22,8 @@ enum {
 	FALLING
 }
 
-var shoot_charge_timer = Timer.new()
-var shoot_charge_wait_time = 1.0
-
 var state = BALANCING
 
-func _ready():
-	self.shoot_charge_timer.autostart = false
-	self.shoot_charge_timer.one_shot = true
-	self.shoot_charge_timer.set_wait_time(self.shoot_charge_wait_time)
-	self.add_child(self.shoot_charge_timer)
 
 func _physics_process(delta):
 	var inclination = self.get_inclination()
@@ -54,15 +46,13 @@ func _physics_process(delta):
 func _unhandled_input(event):
 	if event.is_action_pressed("shoot") and self.bullets > 0:
 		self.state = AIMING
-		self.shoot_charge_timer.start()
 
 	if event.is_action_released("shoot"):
 		var shoot_dir = (get_global_mouse_position() - self.global_position).normalized()
-		var speed_factor = (self.shoot_charge_wait_time - self.shoot_charge_timer.get_time_left()) / self.shoot_charge_wait_time
 
 		if self.bullets > 0 and shoot_dir.angle() < 0 and self.state == AIMING:
 			self.decrease_bullets()
-			emit_signal("shot", shoot_dir, speed_factor)
+			emit_signal("shot", shoot_dir)
 		self.state = BALANCING
 
 func increase_bullets():
@@ -84,15 +74,6 @@ func _on_Hitbox_body_entered(body):
 func _process(delta):
 	update()
 	$ProgressBar.value = self.equilibrium
-	if self.state == AIMING:
-		var modulate = $AnimatedSprite.modulate + (Color(1, -1, -1) * delta * self.shoot_charge_wait_time)
-		$AnimatedSprite.modulate = Color(
-			clamp(modulate.r, 0, 1),
-			clamp(modulate.g, 0, 0.5),
-			clamp(modulate.b, 0, 0.5)
-		)
-	else:
-		$AnimatedSprite.modulate = Color.white
 
 func _draw():
 	if self.state == AIMING:
