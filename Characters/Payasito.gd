@@ -62,13 +62,19 @@ func decrease_bullets():
 	self.bullets -= 1
 
 func get_inclination():
-	return clamp(Input.get_accelerometer().x, -Globals.MAX_ACC, Globals.MAX_ACC) / Globals.MAX_ACC
+	var inclination = (
+		Input.get_accelerometer().x
+		+ (int(Input.is_action_pressed("ui_right")) * Globals.MAX_ACC)
+		- (int(Input.is_action_pressed("ui_left")) * Globals.MAX_ACC)
+	)
+	return clamp(inclination, -Globals.MAX_ACC, Globals.MAX_ACC) / Globals.MAX_ACC
 
 func _on_Hitbox_body_entered(body):
 	if body is Obstacle:
 		self.handle_hit(body)
 	elif body is Projectile:
-		self.increase_bullets()
+		if not body.is_queued_for_deletion():
+			self.increase_bullets()
 		body.queue_free()
 
 func _process(delta):
