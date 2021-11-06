@@ -10,10 +10,7 @@ func spawn_bricks_row():
 	var brick_count = int(floor($Start.position.distance_to($End.position) / brick_width))
 	for i in range(brick_count):
 		var brick_pos_x = brick_width * i + brick_width/2
-		var brick = Brick.instance()
-		if randi() % 2 == 0:
-			brick.is_aggresive = true
-		brick.position = Vector2(brick_pos_x, 0)
+		var brick = Brick.instance().init(Vector2(brick_pos_x, 0), randi() % 2 == 0)
 		add_child(brick)
 
 func _on_SpawnTimer_timeout():

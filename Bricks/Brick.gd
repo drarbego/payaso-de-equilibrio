@@ -12,10 +12,17 @@ var is_aggresive = false
 const MAX_TIME = 5
 const MIN_TIME = 2
 
+func init(pos, aggresive):
+	self.position = pos
+	self.is_aggresive = aggresive
+
+	return self
+
 func _ready():
+	$Sprite.material = $Sprite.material.duplicate()
+	$Sprite.material.set_shader_param("is_aggresive", self.is_aggresive)
 	if self.is_aggresive:
 		self.start_timer()
-		$Polygon2D.color = Color.red
 
 func start_timer():
 	$ObstacleTimer.wait_time = (MAX_TIME - MIN_TIME) * randf() + MIN_TIME
