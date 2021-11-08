@@ -3,6 +3,7 @@ extends Node2D
 const projectile_class = preload("res://BaseProjectile.tscn")
 const ammo_class = preload("res://Ammo.tscn")
 const cloud_texture = preload("res://Assets/Background/Cloud_01.png")
+const GameOverMenu = preload("res://GameOverMenu.tscn")
 
 export(float) var CLOUD_ANIMATION_SPEED = 300
 var score = 0
@@ -78,4 +79,6 @@ func _on_Payasito_shot(dir):
 	$Projectiles.add_child(projectile)
 
 func game_over():
-	get_tree().change_scene("res://GameOverMenu.tscn")
+	get_tree().get_root().get_node("Env").queue_free()
+	var game_over_menu = GameOverMenu.instance()
+	get_tree().get_root().add_child(game_over_menu)
