@@ -12,8 +12,8 @@ func _ready():
 	randomize()
 	$Score/Points.set_text(str(self.score))
 
-func _on_ScoreTimer_timeout():
-	self.score += 100
+func add_score():
+	self.score += 10
 	$Score/Points.set_text(str(self.score))
 
 func _on_obstacle_destroyed(points):

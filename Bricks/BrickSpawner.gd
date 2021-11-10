@@ -18,6 +18,7 @@ func spawn_bricks_row():
 		var health = (randi() % MAX_HEALTH) + 1
 
 		var brick = Brick.instance().init(Vector2(brick_pos_x, 0), is_aggresive, health)
+		brick.connect("destroyed", get_parent(), "add_score")
 		add_child(brick)
 
 func _on_SpawnTimer_timeout():

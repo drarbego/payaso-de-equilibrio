@@ -13,6 +13,8 @@ var health = 3
 const MAX_TIME = 15
 const MIN_TIME = 3
 
+signal destroyed
+
 func init(_position, _is_aggresive, _health):
 	self.position = _position
 	self.is_aggresive = _is_aggresive
@@ -34,6 +36,7 @@ func _on_HitBox_body_entered(body):
 	self.health -= 1
 	$Sprite.material.set_shader_param("health", self.health)
 	if health <= 0:
+		emit_signal("destroyed")
 		self.queue_free()
 
 func start_timer():
