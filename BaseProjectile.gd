@@ -11,6 +11,3 @@ func _physics_process(delta):
 
 	if collision:
 		dir = dir.bounce(collision.normal)
-		
-		if collision.collider.is_in_group("bricks"):
-			collision.collider.queue_free()

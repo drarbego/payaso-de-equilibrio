@@ -64,8 +64,8 @@ func decrease_bullets():
 func get_inclination():
 	var inclination = (
 		Input.get_accelerometer().x
-		+ (int(Input.is_action_pressed("ui_right")) * Globals.MAX_ACC)
-		- (int(Input.is_action_pressed("ui_left")) * Globals.MAX_ACC)
+		+ (int(Input.is_action_pressed("ui_right")) * (Globals.MAX_ACC/2))
+		- (int(Input.is_action_pressed("ui_left")) * (Globals.MAX_ACC/2))
 	)
 	return clamp(inclination, -Globals.MAX_ACC, Globals.MAX_ACC) / Globals.MAX_ACC
 

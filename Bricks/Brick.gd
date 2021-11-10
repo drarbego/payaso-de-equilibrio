@@ -9,20 +9,32 @@ var target_pos = Vector2.ZERO
 var is_moving = false
 var speed = 100
 var is_aggresive = false
-const MAX_TIME = 5
-const MIN_TIME = 2
+var health = 3
+const MAX_TIME = 15
+const MIN_TIME = 3
 
-func init(pos, aggresive):
-	self.position = pos
-	self.is_aggresive = aggresive
+func init(_position, _is_aggresive, _health):
+	self.position = _position
+	self.is_aggresive = _is_aggresive
+	self.health = _health
 
 	return self
 
 func _ready():
 	$Sprite.material = $Sprite.material.duplicate()
 	$Sprite.material.set_shader_param("is_aggresive", self.is_aggresive)
+	$Sprite.material.set_shader_param("health", self.health)
 	if self.is_aggresive:
 		self.start_timer()
+
+func _on_HitBox_body_entered(body):
+	if not body.is_in_group("projectiles"):
+		return
+
+	self.health -= 1
+	$Sprite.material.set_shader_param("health", self.health)
+	if health <= 0:
+		self.queue_free()
 
 func start_timer():
 	$ObstacleTimer.wait_time = (MAX_TIME - MIN_TIME) * randf() + MIN_TIME

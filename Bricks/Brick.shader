@@ -1,7 +1,8 @@
 shader_type canvas_item;
 
 uniform bool is_aggresive = false;
-const int SQUARES = 4;
+uniform int health = 3;
+
 const float STEP_SIZE = 0.15;
 
 bool is_within(vec2 uv, vec4 outer, vec4 inner) {
@@ -24,8 +25,8 @@ vec4 get_outer(int iter, float time) {
 	);
 }
 
-vec4 get_color(vec2 uv, float time, vec4 current_pixel) {
-	for(int i = 0; i < SQUARES; i++) {
+vec4 get_color(vec2 uv, float time) {
+	for(int i = 0; i < health; i++) {
 		vec4 outer = get_outer(i, time);
 		vec4 inner = outer + vec4(vec2(0.05), vec2(-0.05));
 
@@ -37,9 +38,9 @@ vec4 get_color(vec2 uv, float time, vec4 current_pixel) {
 		}
 	}
 
-	return current_pixel;
+	return vec4(0.0, 0.0, 0.0, 1.0);
 }
 
 void fragment() {
-	COLOR = get_color(UV, TIME, texture(TEXTURE, UV));
+	COLOR = get_color(UV, TIME);
 }

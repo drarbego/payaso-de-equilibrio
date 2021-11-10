@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Bricks/Brick.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -10,6 +10,10 @@ extents = Vector2( 40.5, 40.5 )
 [sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 3 )
 shader_param/is_aggresive = false
+shader_param/health = 3
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 48, 48 )
 
 [node name="Brick" type="KinematicBody2D" groups=[
 "bricks",
@@ -29,4 +33,10 @@ material = SubResource( 2 )
 position = Vector2( 0.407111, -5.96046e-07 )
 scale = Vector2( 0.624691, 0.624691 )
 texture = ExtResource( 2 )
+
+[node name="HitBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource( 3 )
 [connection signal="timeout" from="ObstacleTimer" to="." method="_on_ObstacleTimer_timeout"]
+[connection signal="body_entered" from="HitBox" to="." method="_on_HitBox_body_entered"]
