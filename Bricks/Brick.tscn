@@ -30,7 +30,6 @@ one_shot = true
 
 [node name="Sprite" type="Sprite" parent="."]
 material = SubResource( 2 )
-position = Vector2( 0.407111, -5.96046e-07 )
 scale = Vector2( 0.624691, 0.624691 )
 texture = ExtResource( 2 )
 
