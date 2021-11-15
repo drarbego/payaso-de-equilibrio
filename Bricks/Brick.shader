@@ -1,13 +1,11 @@
 shader_type canvas_item;
 
 uniform bool is_aggresive = false;
-uniform int health = 5;
-
-const float STEP_SIZE = 0.15;
+uniform int health = 3;
 
 float sawtooth(float time) {
 	float health_float = float(health);
-	return (time - health_float * floor(time / health_float)) / health_float;
+	return 0.5 * ((time - health_float * floor(time / health_float)) / health_float);
 }
 
 bool is_within(vec2 uv, vec4 outer, vec4 inner) {
@@ -21,8 +19,7 @@ bool is_within(vec2 uv, vec4 outer, vec4 inner) {
 }
 
 vec4 get_outer(int iter, float time) {
-	// iter sería el desfase
-	float range = float(iter) * STEP_SIZE * sawtooth(time);
+	float range = sawtooth(time + float(iter));
 
 	return vec4(
 		abs(range),
@@ -34,7 +31,7 @@ vec4 get_outer(int iter, float time) {
 
 vec4 get_color(vec2 uv, float time) {
 	for(int i = 0; i < health; i++) {
-		vec4 outer = get_outer(i+1, time);
+		vec4 outer = get_outer(i, time);
 		vec4 inner = outer + vec4(vec2(0.05), vec2(-0.05));
 
 		if (is_within(uv, outer, inner)) {
