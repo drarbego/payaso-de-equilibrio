@@ -36,8 +36,11 @@ func _on_HitBox_body_entered(body):
 	self.health -= 1
 	$Sprite.material.set_shader_param("health", self.health)
 	if health <= 0:
-		emit_signal("destroyed")
-		self.queue_free()
+		self.destroy()
+
+func destroy():
+	emit_signal("destroyed")
+	self.queue_free()
 
 func start_timer():
 	$ObstacleTimer.wait_time = (MAX_TIME - MIN_TIME) * randf() + MIN_TIME
@@ -45,6 +48,10 @@ func start_timer():
 
 func _on_ObstacleTimer_timeout():
 	self.spawn_obstacle()
+	self.health -= 1
+	if self.health <= 0:
+		self.destroy()
+
 	self.start_timer()
 
 func spawn_obstacle():
