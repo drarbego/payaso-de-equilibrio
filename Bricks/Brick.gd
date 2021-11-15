@@ -3,7 +3,7 @@ extends KinematicBody2D
 
 class_name Brick
 
-const Obstacle = preload("res://Obstacle.tscn")
+const Obstacle = preload("res://Bricks/Obstacle.tscn")
 
 var target_pos = Vector2.ZERO
 var is_moving = false
@@ -33,6 +33,9 @@ func _on_HitBox_body_entered(body):
 	if not body.is_in_group("projectiles"):
 		return
 
+	self.damaged()
+
+func damaged():
 	self.health -= 1
 	$Sprite.material.set_shader_param("health", self.health)
 	if health <= 0:
@@ -48,10 +51,7 @@ func start_timer():
 
 func _on_ObstacleTimer_timeout():
 	self.spawn_obstacle()
-	self.health -= 1
-	if self.health <= 0:
-		self.destroy()
-
+	self.damaged()
 	self.start_timer()
 
 func spawn_obstacle():
