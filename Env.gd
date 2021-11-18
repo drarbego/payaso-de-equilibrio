@@ -1,7 +1,6 @@
 extends Node2D
 
 const projectile_class = preload("res://BaseProjectile.tscn")
-const ammo_class = preload("res://Ammo.tscn")
 const cloud_texture = preload("res://Assets/Background/Cloud_01.png")
 const GameOverMenu = preload("res://GameOverMenu.tscn")
 
@@ -45,10 +44,8 @@ func _on_ObstacleDeleter_body_entered(body):
 	if body is Obstacle:
 		body.queue_free()
 	if body is Projectile:
-		var ammo = ammo_class.instance()
-		ammo.position = Vector2(body.position.x, $Payasito.position.y)
-		add_child(ammo)
-		body.queue_free()
+		body.speed = 0.0
+		body.position = Vector2(body.position.x, $Payasito.position.y)
 	if body is Brick:
 		game_over()
 

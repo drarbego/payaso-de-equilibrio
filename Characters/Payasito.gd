@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends Node2D
 
 var speed = 950
 var damage_color = Color(1, 0, 0)
@@ -24,24 +24,6 @@ enum {
 
 var state = BALANCING
 
-
-func _physics_process(delta):
-	var inclination = self.get_inclination()
-	var motion = Vector2.ZERO if self.state == FALLING else Vector2(inclination, 0) * self.speed
-	var __ = self.move_and_slide(motion)
-
-	var equilibrium_delta = equilibrium_decrease_unit if abs(inclination) > equilibrium_limit else equilibrium_increase_unit
-	equilibrium = clamp(equilibrium + equilibrium_delta * delta, 0, 100)
-
-	if equilibrium >= 80 and $AnimatedSprite.animation != "normal":
-		$AnimatedSprite.play("normal")
-	elif equilibrium < 80 and equilibrium > 50 and $AnimatedSprite.animation != "mid":
-		$AnimatedSprite.play("mid")
-	elif equilibrium <= 50 and $AnimatedSprite.animation != "low":
-		$AnimatedSprite.play("low")
-
-	if equilibrium <= 0:
-		emit_signal("fell")
 
 func _unhandled_input(event):
 	if event.is_action_pressed("shoot") and self.bullets > 0:
@@ -80,6 +62,24 @@ func _on_Hitbox_body_entered(body):
 func _process(delta):
 	update()
 	$ProgressBar.value = self.equilibrium
+
+	var inclination = self.get_inclination()
+	var motion = Vector2.ZERO if self.state == FALLING else Vector2(inclination, 0) * self.speed * delta
+	self.position += motion
+
+	var equilibrium_delta = equilibrium_decrease_unit if abs(inclination) > equilibrium_limit else equilibrium_increase_unit
+	equilibrium = clamp(equilibrium + equilibrium_delta * delta, 0, 100)
+
+	if equilibrium >= 80 and $AnimatedSprite.animation != "normal":
+		$AnimatedSprite.play("normal")
+	elif equilibrium < 80 and equilibrium > 50 and $AnimatedSprite.animation != "mid":
+		$AnimatedSprite.play("mid")
+	elif equilibrium <= 50 and $AnimatedSprite.animation != "low":
+		$AnimatedSprite.play("low")
+
+	if equilibrium <= 0:
+		emit_signal("fell")
+
 
 func _draw():
 	if self.state == AIMING:
