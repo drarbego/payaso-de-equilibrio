@@ -52,22 +52,27 @@ func _on_ObstacleDeleter_body_entered(body):
 func _on_GameOverTimer_timeout():
 	game_over()
 
-func _on_LeftLimitDetector_body_entered(body):
-	if body is Player and body.state != $Payasito.FALLING:
+func _on_LeftLimitDetector_area_entered(area):
+	var area_parent = area.get_parent()
+
+	if area_parent is Player and area_parent.state != $Payasito.FALLING:
 		$GameOverTimer.start()
 		$Payasito.state = $Payasito.FALLING
 		$Payasito/AnimationPlayer.play("falling_left")
 
-func _on_RightLimitDetector_body_entered(body):
-	if body is Player and body.state != $Payasito.FALLING:
+func _on_RightLimitDetector_area_entered(area):
+	var area_parent = area.get_parent()
+
+	if area_parent is Player and area_parent.state != $Payasito.FALLING:
 		$GameOverTimer.start()
 		$Payasito.state = $Payasito.FALLING
 		$Payasito/AnimationPlayer.play("falling_right")
 
 func _on_Payasito_fell():
-	$GameOverTimer.start()
-	$Payasito.state = $Payasito.FALLING
-	$Payasito/AnimationPlayer.play("falling")
+	if $Payasito.state != $Payasito.FALLING:
+		$GameOverTimer.start()
+		$Payasito.state = $Payasito.FALLING
+		$Payasito/AnimationPlayer.play("falling")
 
 func _on_Payasito_shot(dir):
 	var projectile = projectile_class.instance()
