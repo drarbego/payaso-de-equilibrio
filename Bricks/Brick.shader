@@ -22,10 +22,10 @@ vec4 get_outer(int iter, float time) {
 	float range = sawtooth(time + float(iter));
 
 	return vec4(
-		abs(range),
-		abs(range),
-		1.0 - abs(range),
-		1.0 - abs(range)
+		abs(range), // top-left x
+		abs(range), // top-left y
+		1.0 - abs(range), // bottom-right x
+		1.0 - abs(range) // bottom-right y
 	);
 }
 

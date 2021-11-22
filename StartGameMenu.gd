@@ -4,6 +4,17 @@ extends Control
 const Env = preload("res://Env.tscn")
 var sound = false
 
+func _ready():
+	var scores = Globals.read_scores()
+	for score in scores:
+		var label = Label.new()
+		label.set_text(str(score))
+		var font = DynamicFont.new()
+		font.font_data = load("res://Assets/Andale Mono.ttf")
+		font.size = 64
+		label.set("custom_fonts/font", font)
+
+		$CenterContainer/VBoxContainer/ScoresContainer.add_child(label)
 
 func _on_SoundOnOff_toggled(new_state):
 	self.sound = new_state

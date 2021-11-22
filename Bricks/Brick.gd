@@ -10,15 +10,23 @@ var is_moving = false
 var speed = 100
 var is_aggresive = false
 var health = 3
-const MAX_TIME = 15
-const MIN_TIME = 3
+var min_spawn_time = 3
+var max_spawn_time = 15
 
 signal destroyed
 
-func init(_position, _is_aggresive, _health):
+func init(
+	_position,
+	_is_aggresive,
+	_health,
+	_min_spawn_time,
+	_max_spawn_time
+	):
 	self.position = _position
 	self.is_aggresive = _is_aggresive
 	self.health = _health
+	self.min_spawn_time = _min_spawn_time
+	self.max_spawn_time = _max_spawn_time
 
 	return self
 
@@ -46,7 +54,7 @@ func destroy():
 	self.queue_free()
 
 func start_timer():
-	$ObstacleTimer.wait_time = (MAX_TIME - MIN_TIME) * randf() + MIN_TIME
+	$ObstacleTimer.wait_time = (max_spawn_time - min_spawn_time) * randf() + min_spawn_time
 	$ObstacleTimer.start()
 
 func _on_ObstacleTimer_timeout():

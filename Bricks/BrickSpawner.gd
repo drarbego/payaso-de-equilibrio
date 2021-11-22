@@ -2,24 +2,31 @@ extends Node2D
 
 
 const Brick = preload("res://Bricks/Brick.tscn")
-export var AGGRESIVE_CHANCE = 0.33
 export var MAX_HEALTH = 3
+onready var BRICK_WIDTH = Brick.instance().get_width()
+onready var BRICK_COUNT = int(floor($Start.position.distance_to($End.position) / BRICK_WIDTH))
 
 func _ready():
 	self.spawn_bricks_row()
 
 func spawn_bricks_row():
-	var brick_width = Brick.instance().get_width()
-	var brick_count = int(floor($Start.position.distance_to($End.position) / brick_width))
-
-	for i in range(brick_count):
-		var brick_pos_x = brick_width * i + brick_width/2
-		var is_aggresive = randf() <= AGGRESIVE_CHANCE
-		var health = (randi() % MAX_HEALTH) + 1
-
-		var brick = Brick.instance().init(Vector2(brick_pos_x, 0), is_aggresive, health)
+	for i in range(self.BRICK_COUNT):
+		var brick_pos_x = BRICK_WIDTH * i + BRICK_WIDTH/2
+		var brick = self.build_brick(brick_pos_x)
 		brick.connect("destroyed", get_parent(), "add_score")
 		add_child(brick)
+
+func build_brick(pos):
+	var is_aggresive = randf() <= Globals.AGGRESIVE_CHANCE
+	var health = (randi() % Globals.BRICK_HEALTH) + 1
+
+	return Brick.instance().init(
+		Vector2(pos, 0),
+		is_aggresive,
+		health,
+		Globals.MIN_SPAWN_TIME,
+		Globals.MAX_SPAWN_TIME
+	)
 
 func _on_SpawnTimer_timeout():
 	get_tree().call_group("bricks", "move_to_next_row")
